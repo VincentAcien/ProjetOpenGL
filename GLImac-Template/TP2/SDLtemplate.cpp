@@ -4,6 +4,7 @@
 #include <glimac/Program.hpp>
 #include <glimac/common.hpp>
 #include <glimac/Image.hpp>
+#include <glimac/FreeflyCamera.hpp>
 #include <cstddef>
 #include <GL/glew.h>
 #include <iostream>
@@ -201,13 +202,13 @@ int main(int argc, char** argv) {
     
     ///////////// FREE CAMERA /////////////
     
-    FreeflyCamera camera;
+    FreeflyCamera camera = FreeflyCamera();
  
     /****************************************************************************************/
     
     
     ///////////// APPLICATION LOOP /////////////
-    
+    //glm::vec2 middle = glm::vec2(400.0f,300.0f);
 
     bool done = false;
     while(!done) {
@@ -217,15 +218,31 @@ int main(int argc, char** argv) {
             if(e.type == SDL_KEYDOWN){
         	//std::cout << "key pressed\n";
         		if (windowManager.isKeyPressed(SDLK_z)){
-        			camera.moveFront(1.5);
-        			std::cout << "z pressed\n";
+        			camera.moveFront(0.5);
+        			MVMatrix = camera.getViewMatrix();
+        			//NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
+        			//ProjMatrix = glm::translate(ProjMatrix, glm::vec3(0, 0, 0.1f));
         			}
-        		if (windowManager.isKeyPressed(SDLK_s))
-        			camera.moveFront(-1.5);
-        		if (windowManager.isKeyPressed(SDLK_q))
-        			camera.moveLeft(1.5);
-        		if (windowManager.isKeyPressed(SDLK_d))
-        			camera.moveLeft(-1.5);
+        		if (windowManager.isKeyPressed(SDLK_s)){
+        			camera.moveFront(-0.5);
+        			MVMatrix = camera.getViewMatrix();
+        			//NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
+        		}
+        		if (windowManager.isKeyPressed(SDLK_q)){
+        			camera.moveLeft(0.5);
+        			MVMatrix = camera.getViewMatrix();
+        		}
+        		if (windowManager.isKeyPressed(SDLK_d)){
+        			camera.moveLeft(-0.5);
+        			MVMatrix = camera.getViewMatrix();
+        		}
+        		if (windowManager.isKeyPressed(SDLK_SPACE)){
+        		        glm::vec2 mousePos = windowManager.getMousePosition();
+        		        camera.rotateLeft((400-mousePos.x)/(2*4.44f));
+        		        camera.rotateUp((300-mousePos.y)/(2*3.33f));
+        		        MVMatrix = camera.getViewMatrix();
+        		}
+        		
         	}
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
@@ -236,12 +253,15 @@ int main(int argc, char** argv) {
     /*********************************
     * HERE SHOULD COME THE RENDERING CODE
     *********************************/
+        
+       
+        
          
         //glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        ProjMatrix = glm::rotate(ProjMatrix, 0.0005f, glm::vec3(0, 2, 0));
-        ProjMatrix = glm::translate(ProjMatrix, glm::vec3(0.003f, 0, 0.0f));//MVMatrix = glm::translate(MVMatrix, glm::vec3(-2, 0, 0));
+        //ProjMatrix = glm::rotate(ProjMatrix, 0.0005f, glm::vec3(0, 2, 0));
+        //ProjMatrix = glm::translate(ProjMatrix, glm::vec3(0.003f, 0, 0.0f));//MVMatrix = glm::translate(MVMatrix, glm::vec3(-2, 0, 0));
         //MVMatrix = glm::rotate(MVMatrix, 0.001f, glm::vec3(0, 2, 0)); //Translation * Rotation
 	 //MVMatrix = glm::translate(MVMatrix, glm::vec3(0, 0.001f, 0));//MVMatrix = glm::translate(MVMatrix, glm::vec3(-2, 0, 0)); // Translation * Rotation * Translation
 	//MVMatrix = glm::scale(glm::mat4x4(1), glm::vec3(1.0f, 1.0f, 1.0f));
