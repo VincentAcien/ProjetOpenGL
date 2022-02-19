@@ -9,6 +9,7 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <math.h>
+#include <filesystem>
 
 using namespace glimac;
 
@@ -57,7 +58,8 @@ int main(int argc, char** argv) {
 
     FilePath applicationPath(argv[0]);
     Program program = loadProgram(applicationPath.dirPath() + "shaders/3D.vs.glsl",
-                                  applicationPath.dirPath() + "shaders/tex3D.fs.glsl");
+                                  applicationPath.dirPath() + "shaders/tex3D.fs.glsl",
+                                  applicationPath.dirPath() + "shaders/directionallights.fs.glsl");
     //Program program = loadProgram(vertexShaderSource,fragmentShaderSource);
     program.use();
     
@@ -69,8 +71,7 @@ int main(int argc, char** argv) {
      *********************************/
     
     /////////// TEXTURE INITIALISATION /////////////
-    
-       std::unique_ptr<Image>  pImage = loadImage("/home/veve/Documents/GLImac-Template/TP2/image/triforce.png");
+       std::unique_ptr<Image>  pImage = loadImage(applicationPath.dirPath() + "image/triforce.png");
     
     GLuint texture;
     glGenTextures(1,&texture);
@@ -84,7 +85,7 @@ int main(int argc, char** argv) {
     
     GLint uTexture_id = glGetUniformLocation(program.getGLId(),"uTexture");
     
-
+//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
         
     ///////////// 3D INITIALISATION /////////////
     
@@ -236,18 +237,17 @@ int main(int argc, char** argv) {
         			camera.moveLeft(-0.5);
         			MVMatrix = camera.getViewMatrix();
         		}
-        		if (windowManager.isKeyPressed(SDLK_SPACE)){
-        		        glm::vec2 mousePos = windowManager.getMousePosition();
-        		        camera.rotateLeft((400-mousePos.x)/(2*4.44f));
-        		        camera.rotateUp((300-mousePos.y)/(2*3.33f));
-        		        MVMatrix = camera.getViewMatrix();
-        		}
+        		
         		
         	}
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
         }
+        glm::vec2 mousePos = windowManager.getMousePosition();
+        camera.rotateLeft((400-mousePos.x)/(2000*4.44f));
+        camera.rotateUp((300-mousePos.y)/(2000*3.33f));
+        MVMatrix = camera.getViewMatrix();
 
 
     /*********************************

@@ -19,12 +19,13 @@ vec3 blinnPhong(){
     normalize(uLightDir_vs);
     w0 = -vPosition_vs;
     normalize(w0);
-    fColor = uLightIntensity*(uKd*dot(uLightDir_vs,N)+uKs((w0+uLightDir_vs)/2*N)^uShininess;
+    return uLightIntensity*(uKd*dot(uLightDir_vs,N)+uKs*pow(dot((w0+uLightDir_vs)/2,N),uShininess));
+    
 }
 
 void main(){
-    vec4 sortie = texture(uTexture, vTexCoords);
-    fColor = vec3(sortie);
+    //vec4 sortie = texture(uTexture, vTexCoords);
+    fColor = blinnPhong();
     //normalize(vNormal_vs);
     //fColor = vNormal_vs;
 }
