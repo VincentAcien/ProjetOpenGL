@@ -10,16 +10,17 @@ in vec2 vTexCoords; // Coordonnées de texture du sommet
 uniform vec3 uKd;
 uniform vec3 uKs;
 uniform float uShininess;
-uniform vec3 uLighDir_vs;
+uniform vec3 uLightDir_vs;
 uniform vec3 uLightIntensity;
 
 out vec3 fColor;
 
 vec3 blinnPhong(){
     normalize(uLightDir_vs);
-    w0 = -vPosition_vs;
+    vec3 w0 = -vPosition_vs;
     normalize(w0);
-    return uLightIntensity*(uKd*dot(uLightDir_vs,N)+uKs*pow(dot((w0+uLightDir_vs)/2,N),uShininess));
+    vec3 halfVector = (w0+uLightDir_vs)*0.5f;
+    return (uLightIntensity*(uKd*dot(uLightDir_vs,vNormal_vs)+uKs*pow(dot(halfVector,vNormal_vs),uShininess)));
     
 }
 
