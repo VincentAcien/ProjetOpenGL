@@ -43,7 +43,6 @@ public:
     }
     
     glm::mat4 getViewMatrix() const{
-        
     	return glm::lookAt(m_Position, m_Position + m_FrontVector, m_UpVector);
     }
 

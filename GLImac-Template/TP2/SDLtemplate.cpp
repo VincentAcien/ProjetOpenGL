@@ -58,7 +58,6 @@ int main(int argc, char** argv) {
 
     FilePath applicationPath(argv[0]);
     Program program = loadProgram(applicationPath.dirPath() + "shaders/3D.vs.glsl",
-                                  applicationPath.dirPath() + "shaders/tex3D.fs.glsl",
                                   applicationPath.dirPath() + "shaders/directionallights.fs.glsl");
     //Program program = loadProgram(vertexShaderSource,fragmentShaderSource);
     program.use();
@@ -94,11 +93,17 @@ int main(int argc, char** argv) {
     GLint uMVMatrix_id = glGetUniformLocation(program.getGLId(),"uMVMatrix");
     GLint uNormalMatrix_id = glGetUniformLocation(program.getGLId(),"uNormalMatrix");
     
+    GLint uKd_id = glGetUniformLocation(program.getGLId(),"uKd");
+    GLint uKs_id = glGetUniformLocation(program.getGLId(),"uKs");
+    GLint uShininess_id = glGetUniformLocation(program.getGLId(),"uShininess");
+    GLint uLighDir_vs_id = glGetUniformLocation(program.getGLId(),"uLighDir_vs");
+    GLint uLightIntensity_id = glGetUniformLocation(program.getGLId(),"uLightIntensity");
+    
     glEnable(GL_DEPTH_TEST);
     
-    glm::mat4 ProjMatrix, MVMatrix, NormalMatrix;
+    glm::mat4 ProjMatrix, MVMatrix, NormalMatrix, MMatrix;
     ProjMatrix = glm::perspective(glm::radians(70.0f),4.0f/3.0f, 0.1f, 100.0f);
-    MVMatrix = glm::translate(MVMatrix,glm::vec3(0,0,-5));
+    MMatrix = glm::translate(MMatrix,glm::vec3(0,0,-5));
     NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
     
     
@@ -213,6 +218,7 @@ int main(int argc, char** argv) {
 
     bool done = false;
     while(!done) {
+    	glm::mat4 ViewMatrix = camera.getViewMatrix();
         // Event loop:
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -220,22 +226,22 @@ int main(int argc, char** argv) {
         	//std::cout << "key pressed\n";
         		if (windowManager.isKeyPressed(SDLK_z)){
         			camera.moveFront(0.5);
-        			MVMatrix = camera.getViewMatrix();
+        			ViewMatrix = camera.getViewMatrix();
         			//NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
         			//ProjMatrix = glm::translate(ProjMatrix, glm::vec3(0, 0, 0.1f));
         			}
         		if (windowManager.isKeyPressed(SDLK_s)){
         			camera.moveFront(-0.5);
-        			MVMatrix = camera.getViewMatrix();
+        			ViewMatrix = camera.getViewMatrix();
         			//NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
         		}
         		if (windowManager.isKeyPressed(SDLK_q)){
         			camera.moveLeft(0.5);
-        			MVMatrix = camera.getViewMatrix();
+        			ViewMatrix = camera.getViewMatrix();
         		}
         		if (windowManager.isKeyPressed(SDLK_d)){
         			camera.moveLeft(-0.5);
-        			MVMatrix = camera.getViewMatrix();
+        			ViewMatrix = camera.getViewMatrix();
         		}
         		
         		
@@ -244,10 +250,11 @@ int main(int argc, char** argv) {
                 done = true; // Leave the loop after this iteration
             }
         }
+        
         glm::vec2 mousePos = windowManager.getMousePosition();
         camera.rotateLeft((400-mousePos.x)/(2000*4.44f));
         camera.rotateUp((300-mousePos.y)/(2000*3.33f));
-        MVMatrix = camera.getViewMatrix();
+        ViewMatrix = camera.getViewMatrix();
 
 
     /*********************************
@@ -260,11 +267,14 @@ int main(int argc, char** argv) {
         //glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        //ProjMatrix = glm::rotate(ProjMatrix, 0.0005f, glm::vec3(0, 2, 0));
+        //MVMatrix = glm::rotate(MVMatrix, 0.0005f, glm::vec3(0, 2, 0));
         //ProjMatrix = glm::translate(ProjMatrix, glm::vec3(0.003f, 0, 0.0f));//MVMatrix = glm::translate(MVMatrix, glm::vec3(-2, 0, 0));
         //MVMatrix = glm::rotate(MVMatrix, 0.001f, glm::vec3(0, 2, 0)); //Translation * Rotation
 	 //MVMatrix = glm::translate(MVMatrix, glm::vec3(0, 0.001f, 0));//MVMatrix = glm::translate(MVMatrix, glm::vec3(-2, 0, 0)); // Translation * Rotation * Translation
 	//MVMatrix = glm::scale(glm::mat4x4(1), glm::vec3(1.0f, 1.0f, 1.0f));
+        
+        
+        MVMatrix = ViewMatrix * MMatrix;
         
         glUniformMatrix4fv(uMVPMatrix_id,1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
         glUniformMatrix4fv(uMVMatrix_id,1,GL_FALSE,glm::value_ptr(MVMatrix));
@@ -273,6 +283,12 @@ int main(int argc, char** argv) {
         
         glBindTexture( GL_TEXTURE_2D,texture);
         glUniform1i(uTexture_id,0);
+        
+        glUniform3f(uKd_id,2.0f,2.0f,2.0f);
+        glUniform3f(uKs_id,1.0f,1.0f,1.0f);
+        glUniform1f(uShininess_id,1.0f);
+        glUniform3f(uLighDir_vs_id,0.0f,0.0f,-1.0f);
+        glUniform3f(uLightIntensity_id,1.0f,0.0f,0.0f);
         
         glDrawElements(GL_TRIANGLES,36,GL_UNSIGNED_INT,0);
         
