@@ -20,6 +20,7 @@ vec3 blinnPhong(){
     vec3 w0 = -vPosition_vs;
     normalize(w0);
     vec3 halfVector = (w0+uLightDir_vs)*0.5f;
+    normalize(halfVector);
     return (uLightIntensity*(uKd*dot(uLightDir_vs,vNormal_vs)+uKs*pow(dot(halfVector,vNormal_vs),uShininess)));
     
 }
