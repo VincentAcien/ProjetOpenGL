@@ -2,7 +2,7 @@
 
 Après avoir fait le build, copier le dossier "GLImac-Template/TP2/image" et le mettre  dans le dossier "GLImac-Template-build/TP2/".
 
-Pour lancer le programme, exécuter la commande :
+Après avoir make, pour lancer le programme, exécuter la commande :
 ```
 ./TP2/TP2_SDLtemplate
 ```
