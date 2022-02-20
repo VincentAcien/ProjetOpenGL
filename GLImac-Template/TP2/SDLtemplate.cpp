@@ -5,6 +5,7 @@
 #include <glimac/common.hpp>
 #include <glimac/Image.hpp>
 #include <glimac/FreeflyCamera.hpp>
+#include <glimac/Sphere.hpp>
 #include <cstddef>
 #include <GL/glew.h>
 #include <iostream>
@@ -12,7 +13,7 @@
 #include <filesystem>
 
 using namespace glimac;
-
+//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
 
 /*
 struct ShapeVertex {
@@ -70,7 +71,8 @@ int main(int argc, char** argv) {
      *********************************/
     
     /////////// TEXTURE INITIALISATION /////////////
-       std::unique_ptr<Image>  pImage = loadImage(applicationPath.dirPath() + "image/triforce.png");
+       //std::unique_ptr<Image>  pImage = loadImage(applicationPath.dirPath() + "image/triforce.png");
+       std::unique_ptr<Image>  pImage = loadImage(applicationPath.dirPath() + "image/EarthMap.jpg");
     
     GLuint texture;
     glGenTextures(1,&texture);
@@ -105,94 +107,202 @@ int main(int argc, char** argv) {
     MMatrix = glm::translate(MMatrix,glm::vec3(0,0,-5));
     MVMatrix = ViewMatrix * MMatrix;
     NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
-    glm::vec3 LightDir = glm::vec3(0.0f,0.0f,1.0f);
+    glm::vec3 LightDir = glm::vec3(-1.0f,-1.0f,-1.0f);
     
     
     ///////////// VERTEX INITIALISATION /////////////
     
-    
-    //GLfloat vertices[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.0f, 0.5f };
-    //GLfloat vertices[] = { -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f , 0.0f, 0.5f, 0.0f, 0.0f, 1.0f };
-   ShapeVertex vertex0,vertex1,vertex2,vertex3,vertex4,vertex5,vertex6,vertex7;
-   vertex0.position = glm::vec3(-1.0f, 1.0f, 1.0f);
-   vertex0.normal = glm::vec3(0.0f, 0.0f, 1.0f);
-   vertex0.texCoords = glm::vec2(0, 1);
    
-   vertex1.position = glm::vec3(1.0f, -1.0f, 1.0f);
-   vertex1.normal = glm::vec3(0.0f, 0.0f, 1.0f);
-   vertex1.texCoords = glm::vec2(1, 1);
+   ShapeVertex vertex00,vertex01,vertex02,vertex03,
+   		vertex10,vertex11,vertex12,vertex13,
+   		vertex20,vertex21,vertex22,vertex23,
+   		vertex30,vertex31,vertex32,vertex33,
+   		vertex40,vertex41,vertex42,vertex43,
+   		vertex50,vertex51,vertex52,vertex53;
+   vertex00.position = glm::vec3(-1.0f, -1.0f, 1.0f);
+   vertex00.normal = glm::vec3(0.0f, 0.0f, -1.0f);
+   vertex00.texCoords = glm::vec2(0,0);
    
-   vertex2.position = glm::vec3(1.0f, 1.0f , 1.0f);
-   vertex2.normal = glm::vec3(0.0f, 0.0f, 1.0f);
-   vertex2.texCoords = glm::vec2(0.5f, 0);
+   vertex01.position = glm::vec3(-1.0f, 1.0f, 1.0f);
+   vertex01.normal = glm::vec3(0.0f, 0.0f, -1.0f);
+   vertex01.texCoords = glm::vec2(0,0);
    
-   vertex3.position = glm::vec3(-1.0f, -1.0f , 1.0f);
-   vertex3.normal = glm::vec3(0.0f, 0.0f, 1.0f);
-   vertex3.texCoords = glm::vec2(0.5f, 0);
+   vertex02.position = glm::vec3(1.0f, 1.0f , 1.0f);
+   vertex02.normal = glm::vec3(0.0f, 0.0f, -1.0f);
+   vertex02.texCoords = glm::vec2(0,0);
    
-   vertex4.position = glm::vec3(-1.0f, 1.0f, -1.0f);
-   vertex4.normal = glm::vec3(0.0f, 0.0f, -1.0f);
-   vertex4.texCoords = glm::vec2(1, 1);
+   vertex03.position = glm::vec3(1.0f, -1.0f , 1.0f);
+   vertex03.normal = glm::vec3(0.0f, 0.0f, -1.0f);
+   vertex03.texCoords = glm::vec2(0,0);
    
-   vertex5.position = glm::vec3(1.0f, -1.0f, -1.0f);
-   vertex5.normal = glm::vec3(0.0f, 0.0f, -1.0f);
-   vertex5.texCoords = glm::vec2(1, 1);
    
-   vertex6.position = glm::vec3(1.0f, 1.0f , -1.0f);
-   vertex6.normal = glm::vec3(0.0f, 0.0f, -1.0f);
-   vertex6.texCoords = glm::vec2(0, 1);
    
-   vertex7.position = glm::vec3(-1.0f, -1.0f , -1.0f);
-   vertex7.normal = glm::vec3(0.0f, 0.0f, -1.0f);
-   vertex7.texCoords = glm::vec2(1, 1);
+   vertex10.position = glm::vec3(-1.0f, -1.0f, -1.0f);
+   vertex10.normal = glm::vec3(0.0f, 0.0f, 1.0f);
+   vertex10.texCoords = glm::vec2(0,0);
    
-   ShapeVertex vertices[] = {vertex0,vertex1,vertex2,vertex3,vertex4,vertex5,vertex6,vertex7
+   vertex11.position = glm::vec3(-1.0f, 1.0f, -1.0f);
+   vertex11.normal = glm::vec3(0.0f, 0.0f, 1.0f);
+   vertex11.texCoords = glm::vec2(0, 0);
+   
+   vertex12.position = glm::vec3(1.0f, 1.0f , -1.0f);
+   vertex12.normal = glm::vec3(0.0f, 0.0f, 1.0f);
+   vertex12.texCoords = glm::vec2(0,0);
+   
+   vertex13.position = glm::vec3(1.0f, -1.0f , -1.0f);
+   vertex13.normal = glm::vec3(0.0f, 0.0f, 1.0f);
+   vertex13.texCoords = glm::vec2(0,0);
+   
+   
+   
+   vertex20.position = glm::vec3(-1.0f, -1.0f, -1.0f);
+   vertex20.normal = glm::vec3(1.0f, 0.0f, 0.0f);
+   vertex20.texCoords = glm::vec2(0,0);
+   
+   vertex21.position = glm::vec3(-1.0f, 1.0f, -1.0f);
+   vertex21.normal = glm::vec3(1.0f, 0.0f, 0.0f);
+   vertex21.texCoords =glm::vec2(0,0);
+   
+   vertex22.position = glm::vec3(-1.0f, 1.0f , 1.0f);
+   vertex22.normal = glm::vec3(1.0f, 0.0f, 0.0f);
+   vertex22.texCoords = glm::vec2(0,0);
+   
+   vertex23.position = glm::vec3(-1.0f, -1.0f , 1.0f);
+   vertex23.normal = glm::vec3(1.0f, 0.0f, 0.0f);
+   vertex23.texCoords = glm::vec2(0,0);
+   
+   
+   
+   vertex30.position = glm::vec3(1.0f, -1.0f, -1.0f);
+   vertex30.normal = glm::vec3(-1.0f, 0.0f, 0.0f);
+   vertex30.texCoords = glm::vec2(0,0);
+   
+   vertex31.position = glm::vec3(1.0f, 1.0f, -1.0f);
+   vertex31.normal = glm::vec3(-1.0f, 0.0f, 0.0f);
+   vertex31.texCoords = glm::vec2(0,0);
+   
+   vertex32.position = glm::vec3(1.0f, 1.0f , 1.0f);
+   vertex32.normal = glm::vec3(-1.0f, 0.0f, 0.0f);
+   vertex32.texCoords = glm::vec2(0,0);
+   
+   vertex33.position = glm::vec3(1.0f, -1.0f , 1.0f);
+   vertex33.normal = glm::vec3(-1.0f, 0.0f, 0.0f);
+   vertex33.texCoords = glm::vec2(0,0);
+   
+   
+   
+   vertex40.position = glm::vec3(-1.0f, -1.0f, -1.0f);
+   vertex40.normal = glm::vec3(0.0f, 1.0f, 0.0f);
+   vertex40.texCoords = glm::vec2(0,0);
+   
+   vertex41.position = glm::vec3(-1.0f, -1.0f, 1.0f);
+   vertex41.normal = glm::vec3(0.0f, 1.0f, 0.0f);
+   vertex41.texCoords = glm::vec2(0,0);
+   
+   vertex42.position = glm::vec3(1.0f, -1.0f , 1.0f);
+   vertex42.normal = glm::vec3(0.0f, 1.0f, 0.0f);
+   vertex42.texCoords = glm::vec2(0,0);
+   
+   vertex43.position = glm::vec3(1.0f, -1.0f , -1.0f);
+   vertex43.normal = glm::vec3(0.0f, 1.0f, 0.0f);
+   vertex43.texCoords = glm::vec2(0,0);
+   
+   
+   
+   vertex50.position = glm::vec3(-1.0f, 1.0f, -1.0f);
+   vertex50.normal = glm::vec3(0.0f, -1.0f, 0.0f);
+   vertex50.texCoords = glm::vec2(0,0);
+   
+   vertex51.position = glm::vec3(-1.0f, 1.0f, 1.0f);
+   vertex51.normal = glm::vec3(0.0f, -1.0f, 0.0f);
+   vertex51.texCoords =glm::vec2(0,0);
+   
+   vertex52.position = glm::vec3(1.0f, 1.0f , 1.0f);
+   vertex52.normal = glm::vec3(0.0f, -1.0f, 0.0f);
+   vertex52.texCoords = glm::vec2(0,0);
+   
+   vertex53.position = glm::vec3(1.0f, 1.0f , -1.0f);
+   vertex53.normal = glm::vec3(0.0f, -1.0f, 0.0f);
+   vertex53.texCoords = glm::vec2(0,0);
+   
+   ShapeVertex vertices[] = {	vertex00,vertex01,vertex02,vertex03,
+   				vertex10,vertex11,vertex12,vertex13,
+   				vertex20,vertex21,vertex22,vertex23,
+   				vertex30,vertex31,vertex32,vertex33,
+   				vertex40,vertex41,vertex42,vertex43,
+   				vertex50,vertex51,vertex52,vertex53
         
         //ShapeVertex(glm::vec3( -0.5f, 0.5f, 0.0f),glm::vec3(-0.5f, -0.5f, 0.0f),glm::vec3(1, 1, 1)),
     };
     
     
+    Sphere sphere = Sphere(1,32,16);
+    
      ///////////// VBO INITIALISATION /////////////
     
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    GLuint vbo1,vbo2;
+    glGenBuffers(1, &vbo1);
+    glGenBuffers(1, &vbo2);
     
-    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(ShapeVertex), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo1);
+    glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(ShapeVertex), vertices, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, vbo2);
+    glBufferData(GL_ARRAY_BUFFER, sphere.getVertexCount() * sizeof(ShapeVertex), sphere.getDataPointer(), GL_STATIC_DRAW);
     
     glBindBuffer(GL_ARRAY_BUFFER,0);
     
     
     ///////////// IBO INITIALISATION /////////////
     
+    
     GLuint ibo;
     glGenBuffers(1, &ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
     
-    uint32_t indices[] = { 2,5,6, 0,1,2, 0,1,3, 4,5,6, 4,5,7, 0,4,3, 7,4,3, 0,4,2, 6,4,2, 2,5,1,  7,1,3, 7,1,5};
+    uint32_t indices[] = { 	0,2,1 , 	0,2,3,
+    				4,6,5 , 	4,6,7,
+    				8,10,9 , 	8,10,11,
+    				12,14,13 , 	12,14,15,
+    				16,18,17, 	16,18,19,
+    				20,22,21 , 	20,22,23};
     
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
-
+    
 
     ///////////// VAO INITIALISATION /////////////
 
-    GLuint vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-
+    GLuint vao1,vao2;
     const GLuint VERTEX_ATTR_POSITION = 0;
     const GLuint VERTEX_ATTR_NORMAL= 1;  
     const GLuint VERTEX_ATTR_TEXCOORDS= 2; 
+    
+    glGenVertexArrays(1, &vao1);
+    glBindVertexArray(vao1);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
     
     glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
     glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
     glEnableVertexAttribArray(VERTEX_ATTR_TEXCOORDS);
     
-    glBindBuffer(GL_ARRAY_BUFFER,vbo);
+    glBindBuffer(GL_ARRAY_BUFFER,vbo1);
+        
+    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), offsetof(ShapeVertex,position));
+    glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)  offsetof(ShapeVertex,normal));
+    glVertexAttribPointer(VERTEX_ATTR_TEXCOORDS, 2, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)  offsetof(ShapeVertex,texCoords));
+    
+    
+    
+    glGenVertexArrays(1, &vao2);
+    glBindVertexArray(vao2);
+    
+    glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
+    glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
+    glEnableVertexAttribArray(VERTEX_ATTR_TEXCOORDS);
+    
+    glBindBuffer(GL_ARRAY_BUFFER,vbo2);
         
     glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), offsetof(ShapeVertex,position));
     glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (const GLvoid*)  offsetof(ShapeVertex,normal));
@@ -255,8 +365,8 @@ int main(int argc, char** argv) {
         }
         
         glm::vec2 mousePos = windowManager.getMousePosition();
-        camera.rotateLeft((400-mousePos.x)/(2000*4.44f));
-        camera.rotateUp((300-mousePos.y)/(2000*3.33f));
+        camera.rotateLeft((400-mousePos.x)/(500*4.44f));
+        camera.rotateUp((300-mousePos.y)/(500*3.33f));
         ViewMatrix = camera.getViewMatrix();
 	MVMatrix = ViewMatrix * MMatrix;
 
@@ -275,34 +385,96 @@ int main(int argc, char** argv) {
         //ProjMatrix = glm::translate(ProjMatrix, glm::vec3(0.003f, 0, 0.0f));//MVMatrix = glm::translate(MVMatrix, glm::vec3(-2, 0, 0));
         //MVMatrix = glm::rotate(MVMatrix, 0.001f, glm::vec3(0, 2, 0)); //Translation * Rotation
 	 //MVMatrix = glm::translate(MVMatrix, glm::vec3(0, 0.001f, 0));//MVMatrix = glm::translate(MVMatrix, glm::vec3(-2, 0, 0)); // Translation * Rotation * Translation
-	//MVMatrix = glm::scale(glm::mat4x4(1), glm::vec3(1.0f, 1.0f, 1.0f));
+	
         
         
         
         
-        glUniform3f(uKd_id,2.0f,2.0f,2.0f);
-        glUniform3f(uKs_id,0.0f,0.0f,0.0f);
-        glUniform1f(uShininess_id,1.0f);
+        glUniform3f(uKd_id,1.0f,1.0f,1.0f);
+        glUniform3f(uKs_id,0.2f,0.2f,0.2f);
+        glUniform1f(uShininess_id,0.2f);
         //LightDir = ViewMatrix*LightDir;
-        glUniform3f(uLightDir_vs_id,LightDir.x,LightDir.y,LightDir.z);
-        glUniform3f(uLightIntensity_id,1.0f,0.0f,0.0f);
+        glUniform3f(uLightDir_vs_id,-LightDir.x,-LightDir.y,-LightDir.z);
+        glUniform3f(uLightIntensity_id,0.5f,0.5f,0.5f);
+        
+        MVMatrix = glm::scale(MVMatrix, glm::vec3(20.0, 20.0, 20.0));
         
         glUniformMatrix4fv(uMVPMatrix_id,1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
         glUniformMatrix4fv(uMVMatrix_id,1,GL_FALSE,glm::value_ptr(MVMatrix));
         glUniformMatrix4fv(uNormalMatrix_id,1,GL_FALSE,glm::value_ptr(NormalMatrix));
-        glBindVertexArray(vao);
+        
+        
+        
+        
+        glBindVertexArray(vao1);
+        
+        //glBindTexture( GL_TEXTURE_2D,texture);
+        glUniform1i(uTexture_id,0);
+        
+        glDrawElements(GL_TRIANGLES,36,GL_UNSIGNED_INT,0);
+        glBindTexture( GL_TEXTURE_2D,0);
+        
+        
+        MVMatrix = glm::scale(MVMatrix, glm::vec3(0.05, 0.05, 0.05));
+        //MVMatrix = glm::rotate(MVMatrix, windowManager.getTime(), glm::vec3(0, 1, 0));
+        glUniformMatrix4fv(uMVPMatrix_id,1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
+        glUniformMatrix4fv(uMVMatrix_id,1,GL_FALSE,glm::value_ptr(MVMatrix));
+        glUniformMatrix4fv(uNormalMatrix_id,1,GL_FALSE,glm::value_ptr(NormalMatrix));
+        
+        glBindVertexArray(vao2);
         
         glBindTexture( GL_TEXTURE_2D,texture);
         glUniform1i(uTexture_id,0);
         
+        glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
+        glBindTexture( GL_TEXTURE_2D,0);
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /**
+        glUniform3f(uKd_id,1.0f,1.0f,1.0f);
+        glUniform3f(uKs_id,0.2f,0.2f,0.2f);
+        glUniform1f(uShininess_id,0.2f);
+        glUniform3f(uLightDir_vs_id,LightDir.x,LightDir.y,LightDir.z);
+        glUniform3f(uLightIntensity_id,0.0f,1.0f,0.0f);
+        
+        glUniformMatrix4fv(uMVPMatrix_id,1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
+        glUniformMatrix4fv(uMVMatrix_id,1,GL_FALSE,glm::value_ptr(MVMatrix));
+        glUniformMatrix4fv(uNormalMatrix_id,1,GL_FALSE,glm::value_ptr(NormalMatrix));
+        
+        
+        glBindVertexArray(vao1);
+        
+        glBindTexture( GL_TEXTURE_2D,texture);
+        glUniform1i(uTexture_id,0);
         
         glDrawElements(GL_TRIANGLES,36,GL_UNSIGNED_INT,0);
-        
+        //glDrawArrays(GL_TRIANGLES, 0, sphere.getVertexCount());
         glBindTexture( GL_TEXTURE_2D,0);
+        **/
 	
          
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
+         
+         
+         
+         
+         
+         
+         
+        
         //glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);*/
         glBindVertexArray(0);
         
@@ -315,8 +487,11 @@ int main(int argc, char** argv) {
     ///////////// DEALOCATIONS /////////////
 
     //glDeleteTextures(1,&texture);
-    glDeleteBuffers(1, &vbo);
-    glDeleteVertexArrays(1, &vao);
+    glDeleteBuffers(1, &vbo1);
+    glDeleteVertexArrays(1, &vao1);
+    glDeleteBuffers(1, &vbo2);
+    glDeleteVertexArrays(1, &vao2);
+    glDeleteBuffers(1, &ibo);
 
     return EXIT_SUCCESS;
 }
